@@ -1,0 +1,8 @@
+.sidebar-container {
+    height: 100%;
+    background-color: #000;
+    transition: 0.5s;
+    top: 0;
+    right: 0;
+    position: fixed;
+}

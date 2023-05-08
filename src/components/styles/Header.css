@@ -11,12 +11,19 @@
     height: 4vh;
 }
 
-img:first-child {
+.head-container a {
     grid-column: 2 / span 1;
     justify-self: left;
+    height: 4vh;
 }
 
-img:last-child {
+.head-container button {
     grid-column: 3 / span 1;
     justify-self: right;
+    height: 4vh;
+}
+
+button {
+    background: none;
+	border: none;
 }
