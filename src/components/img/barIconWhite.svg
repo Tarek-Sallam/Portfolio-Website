@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg id="Layer_1" data-name="Layer 1" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 652.86 652.86">
+  <defs>
+    <style>
+      rect {
+      fill: #fff;
+      }
+    </style>
+  </defs>
+  <rect x="0" y="0" width="652.86" height="130.57" rx="65.29" ry="65.29" />
+  <rect x="0" y="261.15" width="652.86" height="130.57" rx="65.29" ry="65.29" />
+  <rect x="0" y="522.29" width="652.86" height="130.57" rx="65.29" ry="65.29" />
+</svg>

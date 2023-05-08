@@ -1,0 +1,22 @@
+.head-container {
+    background-color: #000;
+    width: 100vw;
+    height: 8vh;
+    display: grid;
+    grid-template-columns: 2vw 1fr 1fr 2vw;
+    align-content: center;
+}
+
+.icons {
+    height: 4vh;
+}
+
+img:first-child {
+    grid-column: 2 / span 1;
+    justify-self: left;
+}
+
+img:last-child {
+    grid-column: 3 / span 1;
+    justify-self: right;
+}
