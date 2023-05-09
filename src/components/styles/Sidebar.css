@@ -6,3 +6,23 @@
     right: 0;
     position: fixed;
 }
+
+.side-items-container {
+    display: flex;
+    flex-direction: column;
+    background-color: red;
+    list-style-type: none;  
+}
+
+.side-items {
+
+}
+
+.side-items a{
+    color: white;
+    text-decoration: none;
+}
+
+.X-button {
+    color: white;
+}

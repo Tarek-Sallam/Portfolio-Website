@@ -7,10 +7,12 @@ import Sidebar from "./Sidebar.js";
 function Header() {
   const [sidebarState, setSidebarState] = useState(false);
 
+  // IF HAMBURGER MENU IS CLICKED
   const handleHBClick = () => {
     setSidebarState(true);
   };
 
+  // JSX RETURN
   return (
     <>
       <div className="head-container">
