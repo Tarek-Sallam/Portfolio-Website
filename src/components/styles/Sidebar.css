@@ -5,6 +5,7 @@
     top: 0;
     right: 0;
     position: fixed;
+    z-index: 1;
 }
 
 .side-items-container {
@@ -14,9 +15,6 @@
     list-style-type: none;  
 }
 
-.side-items {
-
-}
 
 .side-items a{
     color: white;
