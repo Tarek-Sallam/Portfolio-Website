@@ -1,0 +1,37 @@
+.hero-container {
+    background-color: green;
+    display: flex;
+    gap: 2vw;
+    justify-content: center;
+    align-items: center;
+}
+
+.text-wrapper {
+    background-color: orange;
+    text-align: center;
+}
+
+.hero-header {
+    font-size: 10vw;
+    font-weight: bold;
+}
+
+.bolded {
+    font-size: 10vw;
+    font-weight: bold;
+    overflow-x: visible;
+}
+
+.active {
+    height: auto;
+}
+
+.stack {
+    display: grid;
+    transition: 1s;
+}
+
+.stack > * {
+    grid-column: 1 / span 1;
+    grid-row: 1 / span 1;
+}

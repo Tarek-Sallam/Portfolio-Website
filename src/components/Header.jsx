@@ -2,7 +2,7 @@ import logo from "./img/logoWhite.svg";
 import icon from "./img/barIconWhite.svg";
 import "./styles/Header.css";
 import { useState, useRef, useEffect } from "react";
-import Sidebar from "./Sidebar.js";
+import Sidebar from "./Sidebar.jsx";
 
 function Header() {
   const [sidebarState, setSidebarState] = useState(false);

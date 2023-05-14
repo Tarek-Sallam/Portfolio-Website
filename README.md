@@ -1,8 +1,13 @@
-My Website Project
+"Tarek Sallam Website Project"
 
 Developed by: Tarek Sallam
-Developed Using: HTML, CSS, JavaScript & React.js
 Development started: 05/07/2023
+
+Language: JavaScript
+Markup: HTML5/CSS3, JSX
+Frameworks: react-three-fiber
+Libraries: GSAP, three.js, React.js
+
 First Stable Build: TBD
 First Stable Build Date: TBD
 Current Build: TBD
