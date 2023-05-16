@@ -12,9 +12,8 @@ function Hero() {
 
   // item list
   const list = [
-    { content: "FIRST", className: "bolded", id: 1 },
-    { content: "D", className: "bolded", id: 2 },
-    { content: "THIRD", className: "bolded", id: 3 },
+    { content: "ESIGN", className: "rotating", id: "design" },
+    { content: "EVELOP", className: "rotating", id: "develop" },
   ];
 
   // GSAP function
@@ -32,7 +31,7 @@ function Hero() {
       console.log(itemRefs.current.length);
 
       tl.from(itemRefs.current, {
-        yPercent: 30,
+        yPercent: 40,
         duration: duration,
         opacity: 0,
         rotateX: 90,
@@ -42,7 +41,6 @@ function Hero() {
           repeatDelay: repeatDelay,
           onStart: function () {
             this.targets()[0].classList.add("active");
-            console.log("unhigdene");
           },
           onRepeat: function () {
             this.targets()[0].classList.add("active");
@@ -51,11 +49,10 @@ function Hero() {
       }).to(
         itemRefs.current,
         {
-          yPercent: -30,
+          yPercent: -40,
           duration: duration,
           rotateX: -90,
-          opacity: 0,
-          yoyo: true,
+          opacity: 20,
           stagger: {
             each: stagger,
             repeat: -1,
@@ -82,8 +79,11 @@ function Hero() {
   // JSX
   return (
     <main className="hero-container">
-      <div className="text-wrapper">
+      <div className="text-wrapper static">
         <h1 className="hero-header"> Test: </h1>
+      </div>
+      <div className="text-wrapper">
+        <h2 className="hero-header">D</h2>
       </div>
       <div className="text-wrapper stack">
         <ListItems items={list} ref={itemRefs} />

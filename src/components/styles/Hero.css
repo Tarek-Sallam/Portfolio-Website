@@ -1,29 +1,31 @@
 .hero-container {
-    background-color: green;
     display: flex;
-    gap: 2vw;
     justify-content: center;
     align-items: center;
 }
 
 .text-wrapper {
-    background-color: orange;
     text-align: center;
 }
 
 .hero-header {
     font-size: 10vw;
-    font-weight: bold;
+    font-weight: 400;
+    font-family: 'Saira Condensed', sans-serif;
+    color: red;
 }
 
-.bolded {
+.rotating {
+    text-align: left;
+    color: red;
+    font-family: 'Saira Condensed', sans-serif;
     font-size: 10vw;
-    font-weight: bold;
-    overflow-x: visible;
+    font-weight: 400;
 }
 
-.active {
-    height: auto;
+.static {
+    margin-right: 2vw;
+    font-weight: 300;
 }
 
 .stack {
