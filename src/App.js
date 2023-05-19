@@ -7,8 +7,7 @@ import Hero from "./components/Hero.jsx";
 function App() {
   return (
     <>
-      <Header />
-      <Hero />
+      <Main />
     </>
   );
 }

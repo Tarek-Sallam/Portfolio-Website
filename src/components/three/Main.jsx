@@ -1,31 +1,49 @@
-import { Canvas, useFrame } from "@react-three/fiber";
-import React, { useRef, useState } from "react";
-import font from "../../font/Kanit_SemiBold_Regular.json";
-import Text from "./ThreeText.js";
+import { Canvas, useFrame, useThree, extend } from "@react-three/fiber";
+import React, { useRef, useState, useEffect } from "react";
+import vertexShader from "./shaders/vertex.glsl.js";
+import fragmentShader from "./shaders/fragment.glsl.js";
+import { Environment, OrbitControls, Effects } from "@react-three/drei";
+import { UnrealBloomPass } from "three/examples/jsm/postprocessing/UnrealBloomPass.js";
 
-function Box(props) {
-  const mesh = useRef();
+extend({ UnrealBloomPass });
 
-  const [hovered, setHover] = useState(false);
-  const [active, setActive] = useState(false);
-
-  useFrame((state, delta) => (mesh.current.rotation.x += delta));
-
-  const mat = {
-    color: "red",
-  };
-
+/* function CustomShader() {
   return (
-    <mesh
-      {...props}
-      ref={mesh}
-      scale={active ? 1.5 : 1}
-      onClick={(event) => setActive(!active)}
-      onPointerOver={(event) => setHover(true)}
-      onPointerOut={(event) => setHover(false)}
-    >
-      <boxGeometry args={[1, 1, 1]} />
-      <meshPhysicalMaterial {...mat} />
+    <>
+      <meshStandardMaterial
+        onBeforeCompile={(shader) => {
+          console.log(shader);
+        }}
+      />
+    </>
+  );
+} */
+
+function OuterSphere(props) {
+  return (
+    <mesh>
+      <icosahedronGeometry args={props.args} />
+      <meshPhysicalMaterial
+        roughness={0}
+        metalness={0}
+        transmission={1}
+        clearcoat={1}
+        clearcoatRoughness={0.5}
+      />
+    </mesh>
+  );
+}
+
+function InnerSphere(props) {
+  return (
+    <mesh>
+      <icosahedronGeometry args={props.args} />
+      <meshStandardMaterial
+        opacity={0.5}
+        emissive="blue"
+        emissiveIntensity={2}
+        toneMapped={false}
+      />
     </mesh>
   );
 }
@@ -33,9 +51,17 @@ function Box(props) {
 function Main() {
   return (
     <Canvas>
-      <ambientLight />
-      <pointLight position={[10, 10, 10]} />
-      <Text text="TESTING" size={1} font={font} />
+      <Effects disableGamma>
+        <unrealBloomPass threshold={0.1} strength={1} radius={2} />
+      </Effects>
+      <OuterSphere args={[2, 50]} />
+      <InnerSphere args={[1, 50]} />
+      <directionalLight color="white" intensity={2} position={[10, 0, -14]} />
+      <directionalLight
+        color="white"
+        intensity={4}
+        position={[-10, -2, -12.5]}
+      />
     </Canvas>
   );
 }
