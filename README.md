@@ -3,7 +3,7 @@
 Developed by: Tarek Sallam
 Development started: 05/07/2023
 
-Language: JavaScript
+Language: JavaScript, GLSL
 Markup: HTML5/CSS3, JSX
 Frameworks: react-three-fiber
 Libraries: GSAP, three.js, React.js
