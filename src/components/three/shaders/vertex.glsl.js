@@ -92,19 +92,20 @@ const vertexShader = /* glsl */ `
         vec3 normal = vNormal;
         
         float randomN = cnoise(vec3((coords * 2.0) + (u_time/4.0)));
-        float randomM = cnoise(vec3((coords * 4.0) + (u_time/2.0)));
+        float randomM = cnoise(vec3((coords * 4.0) + (u_time/1.0)));
 
         float angle = u_mouse.x * coords.x + u_mouse.y * coords.y;
         if (angle < 0.0) {
             angle = 0.0;
         }
-        randomN = randomN + randomM * angle * 1.5;
+
+        randomN = randomN + randomM * angle * 1.6;
 
         vec3 vDisplacement = normal * randomN;
         vec4 modelPosition = modelMatrix * vec4(position + vDisplacement * 0.2, 1.0);
         
         float sway = (modelPosition.x + modelPosition.y + modelPosition.z);
-        float swayScale= 0.075;
+        float swayScale= 0.1;
 
         modelPosition.x += cos(u_time + sway) * swayScale;
         modelPosition.y += sin(u_time + sway) * swayScale;

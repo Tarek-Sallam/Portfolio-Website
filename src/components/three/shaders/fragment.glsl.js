@@ -88,12 +88,12 @@ const fragmentShader = /* glsl */ `
         float fresnel = dot(viewDirection, vNormal);
         float fresnel2 = fresnel;
         float random = snoise(vNormal * 2.0 + u_time/5.0 + u_mouse.x/10.0 + u_mouse.y/10.0);
-        fresnel = mix(0.3, 1.0, fresnel);
-        random = mix(0.7, 1.0, random);
-        float luminance = fresnel * random + 0.3;
-        vec3 color = vec3(luminance * 0.2, luminance * 0.4, luminance);
-
-        gl_FragColor = vec4(vec3(luminance * 0.2, luminance * 0.4, luminance), 1);
+        fresnel = mix(0.3, 1.2, fresnel);
+        random = mix(0.7, 1.23, random);
+        float luminance = fresnel * random;
+        vec3 color = vec3(luminance * 0.2, luminance * 0.3, luminance * 1.5);
+        
+        gl_FragColor = vec4(color, 1);
     }
 
 
