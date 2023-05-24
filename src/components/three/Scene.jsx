@@ -1,6 +1,6 @@
 // import hooks from r3f
 import { useFrame, useThree } from "@react-three/fiber";
-
+import React, { useEffect } from "react";
 // import componenets
 import WeirdSphere from "./WeirdSphere.jsx";
 import Lights from "./Lights.jsx";
@@ -16,11 +16,11 @@ function Scene() {
   });
 
   // set the initial camera position
-  useThree(({ camera }) => {
-    console.log("changed");
+  const camera = useThree((state) => state.camera);
+  useEffect(() => {
     camera.position.z = 3.5;
-  });
-
+    console.log("changed");
+  }, []);
   // JSX for all the scene components
   return (
     <>
