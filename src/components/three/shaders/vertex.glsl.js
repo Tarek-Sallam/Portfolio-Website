@@ -77,39 +77,34 @@ const vertexShader = /* glsl */ `
 
     varying vec3 vNormal;
     varying vec3 vPosition;
-    varying vec2 vUv;
     
-    uniform float u_time;
-    uniform vec2 u_mouse;
-    uniform vec2 u_viewport;
+    uniform float uTime;
+    uniform vec2 uMouse;
 
     void main () {
         vNormal = normal;
         vPosition = position;
-        vUv = uv;
 
-        vec3 coords = normal;
-        vec3 normal = vNormal;
+        float randomN = cnoise(vec3((vNormal * 2.0) + (uTime/4.0)));
+        float randomM = cnoise(vec3((vNormal * 4.0) + (uTime/1.0)));
+
+        float angle = uMouse.x * vNormal.x + uMouse.y * vNormal.y;
         
-        float randomN = cnoise(vec3((coords * 2.0) + (u_time/4.0)));
-        float randomM = cnoise(vec3((coords * 4.0) + (u_time/1.0)));
-
-        float angle = u_mouse.x * coords.x + u_mouse.y * coords.y;
         if (angle < 0.0) {
             angle = 0.0;
         }
 
         randomN = randomN + randomM * angle * 1.6;
 
-        vec3 vDisplacement = normal * randomN;
-        vec4 modelPosition = modelMatrix * vec4(position + vDisplacement * 0.2, 1.0);
+        vec3 vDisplacement = vNormal * randomN;
+        vec4 modelPosition = modelMatrix * vec4(vPosition + vDisplacement * 0.2, 1.0);
         
         float sway = (modelPosition.x + modelPosition.y + modelPosition.z);
         float swayScale= 0.1;
 
-        modelPosition.x += cos(u_time + sway) * swayScale;
-        modelPosition.y += sin(u_time + sway) * swayScale;
-        modelPosition.z += -cos(u_time + sway + 0.2) * swayScale;
+        modelPosition.x += cos(uTime + sway) * swayScale;
+        modelPosition.y += sin(uTime + sway) * swayScale;
+        modelPosition.z += -cos(uTime + sway + 0.2) * swayScale;
  
         vec4 viewPosition = viewMatrix * modelPosition;
         vec4 projectedPosition = projectionMatrix * viewPosition;

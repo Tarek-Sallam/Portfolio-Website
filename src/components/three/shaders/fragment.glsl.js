@@ -74,20 +74,17 @@ const fragmentShader = /* glsl */ `
                                     dot(p2,x2), dot(p3,x3) ) );
     }
 
-    varying vec2 vUv;
     varying vec3 vNormal;
     varying vec3 vPosition;
 
-    uniform vec2 u_mouse;
-    uniform float u_time;
+    uniform vec2 uMouse;
+    uniform float uTime;
+
     void main() {
-        vec3 coords = vNormal;
-        vec3 normal = vNormal;
-        vec2 mousePos = u_mouse; 
+
         vec3 viewDirection = normalize(cameraPosition - vPosition);
         float fresnel = dot(viewDirection, vNormal);
-        float fresnel2 = fresnel;
-        float random = snoise(vNormal * 2.0 + u_time/5.0 + u_mouse.x/10.0 + u_mouse.y/10.0);
+        float random = snoise(vNormal * 2.0 + uTime/5.0 + uMouse.x/10.0 + uMouse.y/10.0);
         fresnel = mix(0.3, 1.2, fresnel);
         random = mix(0.7, 1.23, random);
         float luminance = fresnel * random;

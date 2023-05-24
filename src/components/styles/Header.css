@@ -5,6 +5,8 @@
     display: grid;
     grid-template-columns: 2vw 1fr 1fr 2vw;
     align-content: center;
+    z-index: 1;
+    position: fixed;
 }
 
 .icons {
