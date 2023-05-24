@@ -1,4 +1,4 @@
-import { Canvas, useFrame, extend } from "@react-three/fiber";
+import { Canvas, useFrame, extend, useThree } from "@react-three/fiber";
 import React, { useRef, useMemo } from "react";
 import vertexShader from "./shaders/vertex.glsl.js";
 import fragmentShader from "./shaders/fragment.glsl.js";
@@ -68,14 +68,7 @@ function OuterSphere(props) {
         geometry={nodes.Sphere.geometry}
         rotation={[-Math.PI * 1.5, 0, 0]}
       >
-        <meshPhysicalMaterial
-          attach="material"
-          transmission={1}
-          opacity={0}
-          roughness={0}
-          clearcoat={1}
-          clearcoatRoughness={0.4}
-        />
+        <meshStandardMaterial roughness={0.5} color="blue" />
       </mesh>
     </group>
   );
@@ -86,8 +79,12 @@ useGLTF.preload("/models/modifiedSphere.gltf");
 function Lights(props) {
   return (
     <>
-      <pointLight position={[-3.5, 0, -1.75]} intensity={3} />
-      <pointLight position={[3.5, 0, -1.75]} intensity={3} />
+      <pointLight position={[3.8, 0, -1.75]} intensity={2} />
+      <pointLight position={[-3.8, 0, -1.75]} intensity={2} />
+      <pointLight position={[-3.6, 0.65, -1.75]} intensity={2} />
+      <pointLight position={[3.6, 0.65, -1.75]} intensity={2} />
+      <pointLight position={[-3.6, -0.65, -1.75]} intensity={2} />
+      <pointLight position={[3.6, -0.65, -1.75]} intensity={2} />
     </>
   );
 }
@@ -99,10 +96,13 @@ function Scene() {
     camera.lookAt(0, 0, 0);
   });
 
+  useThree(({ camera }) => {
+    camera.position.z = 3.5;
+  });
   return (
     <>
       <Lights />
-      <WeirdSphere args={[1, 20]} mat={<CustomShader />} />
+      <WeirdSphere args={[1, 30]} mat={<CustomShader />} />
       <OuterSphere scale={1.75} />
     </>
   );
