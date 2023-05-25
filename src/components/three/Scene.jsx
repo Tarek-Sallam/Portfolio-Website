@@ -26,7 +26,7 @@ function Scene() {
   return (
     <>
       <Lights />
-      <WeirdSphere args={[1, 30]} />
+      <WeirdSphere args={[1, 40]} />
       <OuterSphere scale={1.75} />
     </>
   );

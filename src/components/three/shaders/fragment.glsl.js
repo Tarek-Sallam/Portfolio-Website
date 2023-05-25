@@ -74,22 +74,36 @@ const fragmentShader = /* glsl */ `
                                     dot(p2,x2), dot(p3,x3) ) );
     }
 
+    // varyings (normal and position grabbed from vertex shader)
     varying vec3 vNormal;
     varying vec3 vPosition;
 
+    // uniforms passed from JS
     uniform vec2 uMouse;
     uniform float uTime;
+    uniform vec3 uColor;
 
+    // main script
     void main() {
 
-        vec3 viewDirection = normalize(cameraPosition - vPosition);
-        float fresnel = dot(viewDirection, vNormal);
+        // get the camera view direction
+        vec3 cameraVector = normalize(cameraPosition - vPosition);
+
+        // get the fresnel values by dot product the normal and the camer vector
+        float fresnel = dot(cameraVector, vNormal);
+
+        // get random float values using noise function
         float random = snoise(vNormal * 2.0 + uTime/5.0 + uMouse.x/10.0 + uMouse.y/10.0);
+
+        // mix the fresnel and noise
         fresnel = mix(0.3, 1.2, fresnel);
         random = mix(0.7, 1.23, random);
         float luminance = fresnel * random;
-        vec3 color = vec3(luminance * 0.2, luminance * 0.3, luminance * 1.5);
+
+        // create a vec3 for the color pallete
+        vec3 color = uColor * luminance;
         
+        // set the color
         gl_FragColor = vec4(color, 1);
     }
 

@@ -1,7 +1,7 @@
 // import useMemo hook and Vector2 and useFrame from react, three & r3f
 import React, { useRef, useMemo } from "react";
 import { useFrame } from "@react-three/fiber";
-import { Vector2 } from "three";
+import { Vector2, Vector3 } from "three";
 
 // import shader files
 import vertexShader from "./shaders/vertex.glsl.js";
@@ -17,6 +17,15 @@ function CustomShader() {
       },
       uMouse: {
         value: new Vector2(0, 0),
+      },
+      uColor: {
+        value: new Vector3(0.2, 0.3, 1),
+      },
+      uSwayScale: {
+        value: 0.05,
+      },
+      uSwaySpeed: {
+        value: 1.5,
       },
     }),
     []

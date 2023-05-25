@@ -75,40 +75,54 @@ const vertexShader = /* glsl */ `
         return 2.2 * n_xyz;
     }
 
+    // passing the normal and the position to fragment
     varying vec3 vNormal;
     varying vec3 vPosition;
-    
+
+    // grab uniforms from JS
     uniform float uTime;
     uniform vec2 uMouse;
-
+    uniform float uSwayScale;
+    uniform float uSwaySpeed;
+    // main script
     void main () {
+
+        // set the normals and positiont to pass to fragment
         vNormal = normal;
         vPosition = position;
 
+        // caclulate random values for noise and mouse
         float randomN = cnoise(vec3((vNormal * 2.0) + (uTime/4.0)));
         float randomM = cnoise(vec3((vNormal * 4.0) + (uTime/1.0)));
 
+        // calculate angle for mouse
         float angle = uMouse.x * vNormal.x + uMouse.y * vNormal.y;
         
+        // if angle is < 0 set it to 0 (clamp to 0)
         if (angle < 0.0) {
             angle = 0.0;
         }
 
+        // add the randoms
         randomN = randomN + randomM * angle * 1.6;
 
-        vec3 vDisplacement = vNormal * randomN;
-        vec4 modelPosition = modelMatrix * vec4(vPosition + vDisplacement * 0.2, 1.0);
+        // calculate displacement and model position
+        vec3 displacement = vNormal * randomN;
+        vec4 modelPosition = modelMatrix * vec4(vPosition + displacement * 0.2, 1.0);
         
+        // calculate sway and sway scale
         float sway = (modelPosition.x + modelPosition.y + modelPosition.z);
-        float swayScale= 0.1;
 
-        modelPosition.x += cos(uTime + sway) * swayScale;
-        modelPosition.y += sin(uTime + sway) * swayScale;
-        modelPosition.z += -cos(uTime + sway + 0.2) * swayScale;
+        // add the sway
+        modelPosition.x += cos(uTime * uSwaySpeed + sway) * uSwayScale;
+        modelPosition.y += sin(uTime * uSwaySpeed + sway) * uSwayScale;
+        modelPosition.z += -cos(uTime * uSwaySpeed + sway + 0.2) * uSwayScale;
  
+        // view and projected
         vec4 viewPosition = viewMatrix * modelPosition;
         vec4 projectedPosition = projectionMatrix * viewPosition;
 
+        // set positions
         gl_Position = projectedPosition;
     }
 `;
