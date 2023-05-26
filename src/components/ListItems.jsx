@@ -1,4 +1,4 @@
-import React, { useRef, forwardRef } from "react";
+import React, { forwardRef } from "react";
 
 const ListItems = forwardRef(function ListItems(props, ref) {
   // add to refs array function

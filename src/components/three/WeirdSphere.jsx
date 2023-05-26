@@ -3,8 +3,6 @@ import React, { useRef, useMemo } from "react";
 import { useFrame } from "@react-three/fiber";
 import { Vector2, Vector3 } from "three";
 
-import useMousePosition from "../hooks/useMousePosition";
-
 // import shader files
 import vertexShader from "./shaders/vertex.glsl.js";
 import fragmentShader from "./shaders/fragment.glsl.js";
