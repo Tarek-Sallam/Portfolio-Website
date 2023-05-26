@@ -9,6 +9,7 @@ function App() {
     <>
       <ThreeMain />
       <Header />
+      <Hero />
     </>
   );
 }

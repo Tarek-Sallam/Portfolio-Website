@@ -1,5 +1,5 @@
 import "./styles/Hero.css";
-import React, { useState, useEffect, useRef } from "react";
+import React, { useEffect, useRef } from "react";
 import { gsap } from "gsap";
 import ListItems from "./ListItems.jsx";
 
@@ -26,9 +26,6 @@ function Hero() {
       const pause = 1;
       const stagger = duration + pause;
       const repeatDelay = stagger * (itemRefs.current.length - 1) + pause;
-
-      console.log(itemRefs.current);
-      console.log(itemRefs.current.length);
 
       tl.from(itemRefs.current, {
         yPercent: 40,

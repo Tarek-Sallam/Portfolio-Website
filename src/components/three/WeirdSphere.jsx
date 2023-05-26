@@ -3,6 +3,8 @@ import React, { useRef, useMemo } from "react";
 import { useFrame } from "@react-three/fiber";
 import { Vector2, Vector3 } from "three";
 
+import useMousePosition from "../hooks/useMousePosition";
+
 // import shader files
 import vertexShader from "./shaders/vertex.glsl.js";
 import fragmentShader from "./shaders/fragment.glsl.js";
@@ -48,14 +50,18 @@ function CustomShader() {
 function WeirdSphere(props) {
   // ref for mesh
   const mesh = useRef();
+  // mouse position hook
+  const mouseClamped = props.mouseClamped;
 
   // UseFrame to update uniforms
-  useFrame(({ clock, mouse }) => {
+  useFrame(({ clock }) => {
     // get the uniform object
     const uniforms = mesh.current.material.uniforms;
     uniforms.uTime.value = clock.getElapsedTime(); // set the time to elapsed time
-    uniforms.uMouse.value.x += (mouse.x - uniforms.uMouse.value.x) * 0.075; // update x pos
-    uniforms.uMouse.value.y += (mouse.y - uniforms.uMouse.value.y) * 0.075; // update y pos
+    uniforms.uMouse.value.x +=
+      (mouseClamped.x - uniforms.uMouse.value.x) * 0.075; // update x pos
+    uniforms.uMouse.value.y +=
+      (-mouseClamped.y - uniforms.uMouse.value.y) * 0.075; // update y pos
   });
 
   // JSX with sphere and custom material

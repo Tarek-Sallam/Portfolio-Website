@@ -2,7 +2,8 @@
 import { useFrame } from "@react-three/fiber";
 
 // import custom hook
-import useCurrentWidth from "../hooks/useCurrentWidth.jsx";
+import useCurrentViewport from "../hooks/useCurrentViewport.jsx";
+import useMousePosition from "../hooks/useMousePosition.jsx";
 
 // import componenets
 import WeirdSphere from "./WeirdSphere.jsx";
@@ -12,11 +13,19 @@ import { Vector2 } from "three";
 
 // scene component
 function Scene() {
-  const dist = useCurrentWidth() > 576 ? 3.5 : 5;
+  const viewport = useCurrentViewport();
+  const mousePos = useMousePosition();
+
+  const mouseClamped = {
+    x: (mousePos.x / viewport.width) * 2 - 1,
+    y: (mousePos.y / viewport.height) * 2 - 1,
+  };
+
+  const dist = viewport.width > 576 ? 3.5 : 5;
   // frame hook to update camera using mouse x and y positions
-  useFrame(({ camera, mouse }) => {
-    camera.position.x += (mouse.x / 1.75 - camera.position.x) * 0.05;
-    camera.position.y += (-mouse.y / 0.8 - camera.position.y) * 0.05;
+  useFrame(({ camera }) => {
+    camera.position.x += (mouseClamped.x / 1.75 - camera.position.x) * 0.05;
+    camera.position.y += (mouseClamped.y / 0.8 - camera.position.y) * 0.05;
     let XY = new Vector2(camera.position.x, camera.position.y);
     camera.position.z = dist * Math.sin(Math.acos(XY.length() / dist)); // update z position
     camera.lookAt(0, 0, 0); // update to look at center
@@ -26,7 +35,7 @@ function Scene() {
   return (
     <>
       <Lights />
-      <WeirdSphere args={[1, 40]} />
+      <WeirdSphere args={[1, 40]} mouseClamped={mouseClamped} />
       <OuterSphere scale={1.75} />
     </>
   );

@@ -2,6 +2,7 @@
 // WRITTEN BY VITALIE MALDUR
 // FROM https://dev.to/vitaliemaldur/resize-event-listener-using-react-hooks-1k0c
 
+// extended for height by Tarek Sallam
 import { useState, useEffect } from "react";
 
 const getWidth = () =>
@@ -9,9 +10,17 @@ const getWidth = () =>
   document.documentElement.clientWidth ||
   document.body.clientWidth;
 
-function useCurrentWidth() {
+const getHeight = () =>
+  window.innerHeight ||
+  document.documentElement.clientHeight ||
+  document.body.clientHeight;
+
+function useCurrentViewport() {
   // save current window width in the state object
-  let [width, setWidth] = useState(getWidth());
+  let [viewport, setViewport] = useState({
+    width: getWidth(),
+    height: getHeight(),
+  });
 
   // in this case useEffect will execute only once because
   // it does not have any dependencies.
@@ -23,7 +32,10 @@ function useCurrentWidth() {
       // prevent execution of previous setTimeout
       clearTimeout(timeoutId);
       // change width from the state object after 150 milliseconds
-      timeoutId = setTimeout(() => setWidth(getWidth()), 150);
+      timeoutId = setTimeout(
+        () => setViewport({ width: getWidth(), height: getHeight() }),
+        100
+      );
     };
     // set resize listener
     window.addEventListener("resize", resizeListener);
@@ -35,7 +47,7 @@ function useCurrentWidth() {
     };
   }, []);
 
-  return width;
+  return viewport;
 }
 
-export default useCurrentWidth;
+export default useCurrentViewport;
