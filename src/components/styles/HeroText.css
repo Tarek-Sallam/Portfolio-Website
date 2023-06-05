@@ -3,13 +3,13 @@
     src: url("../../../public/TypoGraphica_demo.otf")
 }
 
-@media only screen and (max-width: 688px) {
+@media only screen and (max-width: 600px) {
     .hero-text-wrapper {
         height: 80%;
     }
 
     .hero-text {
-        font-size: 80vw;
+        font-size: 21rem;
     }
 
     .static {
@@ -17,19 +17,62 @@
     }
 }
 
-@media only screen and (min-width: 688px) {
+@media only screen and (min-width: 600px) {
     .hero-text-wrapper {
         height: 80%;
     }
 
     .hero-text {
-        font-size: 15vw;
+        font-size: 25rem;
     }
 
     .static {
         -webkit-text-stroke: 2px white;
     }
 }
+
+@media only screen and (min-width: 768px) {
+    .hero-text-wrapper {
+        height: 80%;
+    }
+
+    .hero-text {
+        font-size: 23rem;
+    }
+
+    .static {
+        -webkit-text-stroke: 2px white;
+    }
+}
+
+@media only screen and (min-width: 992px) {
+    .hero-text-wrapper {
+        height: 80%;
+    }
+
+    .hero-text {
+        font-size: 22rem;
+    }
+
+    .static {
+        -webkit-text-stroke: 2px white;
+    }
+}
+
+@media only screen and (min-width: 1200px) {
+    .hero-text-wrapper {
+        height: 80%;
+    }
+
+    .hero-text {
+        font-size: 26vw;
+    }
+
+    .static {
+        -webkit-text-stroke: 2px white;
+    }
+}
+
 
 .hero-text-wrapper {
     width: 100%;
