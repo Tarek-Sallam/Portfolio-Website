@@ -1,0 +1,69 @@
+@font-face {
+    font-family: 'Test';
+    src: url("../../../public/TypoGraphica_demo.otf")
+}
+
+@media only screen and (max-width: 688px) {
+    .hero-text-wrapper {
+        height: 80%;
+    }
+
+    .hero-text {
+        font-size: 80vw;
+    }
+
+    .static {
+        -webkit-text-stroke: 2px white;
+    }
+}
+
+@media only screen and (min-width: 688px) {
+    .hero-text-wrapper {
+        height: 80%;
+    }
+
+    .hero-text {
+        font-size: 15vw;
+    }
+
+    .static {
+        -webkit-text-stroke: 2px white;
+    }
+}
+
+.hero-text-wrapper {
+    width: 100%;
+    display: grid;
+    text-align: left;
+    align-items: center;
+}
+
+.hero-text-first {
+    grid-column: 1 / span 1;
+    grid-row: 1 / span 1;
+    display: grid;
+}
+
+.hero-text-last {
+    grid-column: 1 / span 2;
+    grid-row: 2 / span 1;
+    display: grid;
+}
+
+.hero-text {
+    font-family: 'Test';
+    line-height: 0.8;
+    user-select: none;
+    grid-column: 1 / span 1;
+    grid-row: 1 / span 1;
+}
+
+.static {
+    color: black;
+    mix-blend-mode: difference;
+}
+
+.moving {
+    color: white;
+    mix-blend-mode: overlay;
+}

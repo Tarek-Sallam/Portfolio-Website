@@ -10,7 +10,7 @@ import "../styles/ThreeMain.css";
 extend({ UnrealBloomPass });
 
 // Main Canvas Component
-function ThreeMain() {
+function ThreeMain(props) {
   // JSX with the Scene and Effect components
   return (
     <div className="canvas-container">
@@ -18,7 +18,7 @@ function ThreeMain() {
         <Effects>
           <unrealBloomPass threshold={0.4} radius={2} strength={0.6} />
         </Effects>
-        <Scene />
+        <Scene {...props} />
       </Canvas>
     </div>
   );

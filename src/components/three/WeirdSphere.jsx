@@ -19,7 +19,7 @@ function CustomShader() {
         value: new Vector2(0, 0),
       },
       uColor: {
-        value: new Vector3(0.2, 0.3, 1),
+        value: new Vector3(0.2, 0.3, 1.0),
       },
       uSwayScale: {
         value: 0.05,
