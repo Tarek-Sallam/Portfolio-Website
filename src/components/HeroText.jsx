@@ -3,30 +3,53 @@ import { useEffect, useRef, useState } from "react";
 
 import "./styles/HeroText.css";
 import horizontalScroll from "./gsap/horizontalScroll.jsx";
+import ListItems from "./ListItems";
+
 function HeroText(props) {
   const viewport = props.viewport;
-
-  const tlMasterRef = useRef();
   const tlRef1 = useRef();
   const tlRef2 = useRef();
-
   const heroRef = useRef();
+  const firstRef = useRef();
+  const lastRef = useRef();
 
-  // animation
+  // useNames hook
+  const useNames = (widthRef, content, viewport, spacing) => {
+    const [names, setNames] = useState([]);
+    useEffect(() => {
+      setTimeout(() => {
+        const namesArr = [];
+
+        if (!widthRef.current) {
+          setNames([]);
+          return;
+        }
+
+        const width = widthRef.current.clientWidth + spacing;
+        const amount = Math.ceil(viewport.width / width);
+        for (let i = 0; i < amount * 2; ++i) {
+          namesArr[i] = {};
+          namesArr[i].className = "hero-text";
+          namesArr[i].className += i % 2 === 0 ? " difference" : " overlay";
+          namesArr[i].className += " h-text" + Math.floor(i / 2 + 2);
+          namesArr[i].content = content;
+          namesArr[i].id = content + i;
+        }
+
+        setNames(namesArr);
+      }, 100);
+    }, [content, widthRef, viewport.width, spacing]);
+    return names;
+  };
+
+  // names to render
+  const spacing = 0.15 * viewport.width;
+  const fNamesToRender = useNames(firstRef, "TAREK", viewport, spacing);
+  const lNamesToRender = useNames(lastRef, "SALLAM", viewport, spacing);
+
   useEffect(() => {
-    const firstName1 = heroRef.current
-      .querySelector(".hero-text-first")
-      .querySelectorAll(".hero-first");
-    const firstName2 = heroRef.current
-      .querySelector(".hero-text-first")
-      .querySelectorAll(".hero-second");
-
-    const lastName1 = heroRef.current
-      .querySelector(".hero-text-last")
-      .querySelectorAll(".hero-first");
-    const lastName2 = heroRef.current
-      .querySelector(".hero-text-last")
-      .querySelectorAll(".hero-second");
+    const firstNContainer = heroRef.current.querySelector(".hero-text-first");
+    const lastNContainer = heroRef.current.querySelector(".hero-text-last");
 
     const ctx = gsap.context(() => {
       tlRef1.current = gsap.timeline();
@@ -35,38 +58,40 @@ function HeroText(props) {
       const tl2 = tlRef2.current;
       const params = {
         tl: tl1,
-        viewport: viewport,
+        viewport: viewport.width,
         duration: 12,
-        offset: 0.05,
+        classN: "h-text",
+        spacing: spacing,
       };
-
-      gsap.delayedCall(0.01, () => {
+      gsap.delayedCall(0.05, () => {
         horizontalScroll({
           ...params,
-          ...{ first: firstName1, second: firstName2, direction: -1 },
+          ...{ container: firstNContainer, direction: 1 },
         });
         horizontalScroll({
           ...params,
-          ...{ tl: tl2, first: lastName1, second: lastName2, direction: 1 },
+          ...{ tl: tl2, container: lastNContainer, direction: -1 },
         });
       });
     });
     return () => ctx.revert();
-  }, [heroRef, tlRef1, tlRef2, viewport]);
+  }, [heroRef, tlRef1, tlRef2, viewport.width, fNamesToRender, lNamesToRender]);
 
   return (
     <div className="hero-text-wrapper" ref={heroRef}>
-      <span className="hero-text-first">
-        <p className="hero-text static hero-first">TAREK</p>
-        <p className="hero-text moving hero-first">TAREK</p>
-        <p className="hero-text static hero-second">TAREK</p>
-        <p className="hero-text moving hero-second">TAREK</p>
+      <span className="hero-text-first" opacity={0}>
+        <p className="hero-text difference h-text1" ref={firstRef}>
+          TAREK
+        </p>
+        <p className="hero-text overlay h-text1">TAREK</p>
+        <ListItems items={fNamesToRender} />
       </span>
-      <span className="hero-text-last">
-        <p className="hero-text static hero-first">SALLAM</p>
-        <p className="hero-text moving hero-first">SALLAM</p>
-        <p className="hero-text static hero-second">SALLAM</p>
-        <p className="hero-text moving hero-second">SALLAM</p>
+      <span className="hero-text-last" opacity={0}>
+        <p className="hero-text difference h-text1" ref={lastRef}>
+          SALLAM
+        </p>
+        <p className="hero-text overlay h-text1">SALLAM</p>
+        <ListItems items={lNamesToRender} />
       </span>
     </div>
   );

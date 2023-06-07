@@ -4,93 +4,75 @@
 }
 
 @media only screen and (max-width: 600px) {
-    .hero-text-wrapper {
-        height: 80%;
-    }
-
-    .hero-text {
-        font-size: 21rem;
-    }
-
-    .static {
-        -webkit-text-stroke: 2px white;
-    }
-}
-
-@media only screen and (min-width: 600px) {
-    .hero-text-wrapper {
-        height: 80%;
-    }
-
-    .hero-text {
-        font-size: 25rem;
-    }
-
-    .static {
-        -webkit-text-stroke: 2px white;
-    }
-}
-
-@media only screen and (min-width: 768px) {
-    .hero-text-wrapper {
-        height: 80%;
-    }
 
     .hero-text {
         font-size: 23rem;
     }
 
-    .static {
-        -webkit-text-stroke: 2px white;
+    .difference {
+        -webkit-text-stroke: 0.01em white;
     }
 }
 
-@media only screen and (min-width: 992px) {
-    .hero-text-wrapper {
-        height: 80%;
-    }
-
+@media only screen and (min-width: 600px) {
     .hero-text {
         font-size: 22rem;
     }
 
-    .static {
-        -webkit-text-stroke: 2px white;
+    .difference {
+        -webkit-text-stroke: 0.01em white;
+    }
+}
+
+@media only screen and (min-width: 768px) {
+
+    .hero-text {
+        font-size: 21rem;
+    }
+
+    .difference {
+        -webkit-text-stroke: 0.01em white;
+    }
+}
+
+@media only screen and (min-width: 992px) {
+    .hero-text {
+        font-size: 22rem;
+    }
+
+    .difference {
+        -webkit-text-stroke: 0.01em white;
     }
 }
 
 @media only screen and (min-width: 1200px) {
-    .hero-text-wrapper {
-        height: 80%;
-    }
-
     .hero-text {
-        font-size: 26vw;
+        font-size: 30rem;
     }
 
-    .static {
-        -webkit-text-stroke: 2px white;
+    .difference {
+        -webkit-text-stroke: 0.01em white;
     }
 }
 
 
 .hero-text-wrapper {
+    height: 100%;
     width: 100%;
-    display: grid;
-    text-align: left;
-    align-items: center;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: left;
 }
 
 .hero-text-first {
-    grid-column: 1 / span 1;
-    grid-row: 1 / span 1;
     display: grid;
+    grid-template-columns: 1fr 1fr;
 }
 
 .hero-text-last {
-    grid-column: 1 / span 2;
-    grid-row: 2 / span 1;
     display: grid;
+    grid-template-columns: 1fr 1fr;
 }
 
 .hero-text {
@@ -99,14 +81,15 @@
     user-select: none;
     grid-column: 1 / span 1;
     grid-row: 1 / span 1;
+    opacity: 0;
 }
 
-.static {
+.difference {
     color: black;
     mix-blend-mode: difference;
 }
 
-.moving {
+.overlay {
     color: white;
     mix-blend-mode: overlay;
 }
