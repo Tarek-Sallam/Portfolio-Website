@@ -111,7 +111,7 @@ function horizontalScroll({
     );
   }
 
-  tl.to(
+  const root1 = tl.to(
     container.querySelectorAll("." + classN + children.length / 2),
     {
       x: end,
@@ -122,10 +122,12 @@ function horizontalScroll({
       onStart: function () {
         const timer = new Timer(function () {
           delete timerRef[children.length / 2];
-          changeTarget(
-            children[children.length - 2],
-            children[children.length - 1]
-          );
+          if (root1.isActive()) {
+            changeTarget(
+              children[children.length - 2],
+              children[children.length - 1]
+            );
+          }
         }, changeTargetDuration);
         timerRef[children.length / 2] = timer;
         console.log(timerRef);
@@ -133,10 +135,12 @@ function horizontalScroll({
       onRepeat: function () {
         const timer = new Timer(function () {
           delete timerRef[children.length / 2 - 1];
-          changeTarget(
-            children[children.length - 2],
-            children[children.length - 1]
-          );
+          if (root1.isActive()) {
+            changeTarget(
+              children[children.length - 2],
+              children[children.length - 1]
+            );
+          }
         }, changeTargetDuration);
         timerRef[children.length / 2 - 1] = timer;
         console.log(timerRef);
@@ -149,7 +153,7 @@ function horizontalScroll({
     if (starts[j] === start) {
       break;
     }
-    tl.to(
+    const root2 = tl.to(
       container.querySelectorAll("." + classN + (j + 1)),
       {
         x: end,
@@ -160,7 +164,9 @@ function horizontalScroll({
         onStart: function () {
           const timer = new Timer(function () {
             delete timerRef[j];
-            changeTarget(children[j * 2], children[j * 2 + 1]);
+            if (root2.isActive()) {
+              changeTarget(children[j * 2], children[j * 2 + 1]);
+            }
           }, changeTargetDuration);
           timerRef[j] = timer;
           console.log(timerRef);
@@ -168,7 +174,9 @@ function horizontalScroll({
         onRepeat: function () {
           const timer = new Timer(function () {
             delete timerRef[j];
-            changeTarget(children[j * 2], children[j * 2 + 1]);
+            if (root2.isActive()) {
+              changeTarget(children[j * 2], children[j * 2 + 1]);
+            }
           }, changeTargetDuration);
           timerRef[j] = timer;
           console.log(timerRef);
