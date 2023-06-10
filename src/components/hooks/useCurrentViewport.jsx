@@ -17,7 +17,7 @@ const getHeight = () =>
 
 function useCurrentViewport() {
   // save current window width in the state object
-  let [viewport, setViewport] = useState({
+  const [viewport, setViewport] = useState({
     width: getWidth(),
     height: getHeight(),
   });

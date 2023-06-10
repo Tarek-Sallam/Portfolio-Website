@@ -65,17 +65,13 @@
     align-items: left;
 }
 
-.hero-text-first {
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-}
-
-.hero-text-last {
-    display: grid;
-    grid-template-columns: 1fr 1fr;
+.h-text-first {
+    transform: translate(0%, -100%);
 }
 
 .hero-text {
+    top: 50%;
+    position: fixed;
     font-family: 'Test';
     line-height: 0.8;
     user-select: none;

@@ -16,6 +16,13 @@ const useNames = (widthRef, addon, content, viewport, spacing) => {
       for (let i = 0; i < amount * 2; ++i) {
         namesArr[i] = {};
         namesArr[i].className = "hero-text";
+
+        if (content === "TAREK") {
+          namesArr[i].className += " h-text-first";
+        } else {
+          namesArr[i].className += " h-text-last";
+        }
+
         namesArr[i].className += i % 2 === 0 ? " difference" : " overlay";
         namesArr[i].className += " h-text" + Math.floor(i / 2 + 2);
         namesArr[i].content = content;
