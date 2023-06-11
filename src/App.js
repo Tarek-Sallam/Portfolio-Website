@@ -8,7 +8,7 @@ import { useState, useEffect } from "react";
 import useCurrentViewport from "./components/hooks/useCurrentViewport.jsx";
 import useMousePosition from "./components/hooks/useMousePosition.jsx";
 import useScroll from "./components/hooks/useScroll.jsx";
-
+import useVisibility from "./components/hooks/useVisibility.jsx";
 function App() {
   const [isLoading, setLoading] = useState(true);
 
@@ -20,6 +20,7 @@ function App() {
     viewport: useCurrentViewport(),
     mouse: useMousePosition(),
     scroll: useScroll(),
+    visible: useVisibility(),
   };
 
   useEffect(() => {

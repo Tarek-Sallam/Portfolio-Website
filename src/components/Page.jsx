@@ -7,7 +7,7 @@ import gsap from "gsap";
 import horizontalScroll from "./gsap/horizontalScroll.jsx";
 import useNames from "./hooks/useNames.jsx";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
-
+import { disableScroll, enableScroll } from "./functions/enableScroll.js";
 gsap.registerPlugin(ScrollTrigger);
 
 function Page(props) {
@@ -47,10 +47,9 @@ function Page(props) {
       // delay the call slightly
       gsap.delayedCall(0.05, () => {
         tlLoopingRef.current = gsap.timeline();
-        tlMasterRef.current = gsap.timeline();
-        const tlMaster = tlMasterRef.current;
-        const tlLooping = tlMasterRef.current;
+        const tlLooping = tlLoopingRef.current;
 
+        // ADD THE ORIGINAL LOOPING TEXT
         tlLooping.add(
           horizontalScroll({
             ...scrollParams,
@@ -77,14 +76,9 @@ function Page(props) {
           "<"
         );
 
-        tlMaster.to(".hero-target", {});
+        // PAUSE AND PLAY FUNCTIONS
 
-        tlMaster.to(".hero-no-target", {
-          opacity: 0,
-          duration: 1,
-        });
-
-        const pauseLoop = (tl, tl2) => {
+        const pauseLoop = (tl, tlRef) => {
           tl.pause();
           for (const id in timersFirst) {
             timersFirst[id].pause();
@@ -92,9 +86,27 @@ function Page(props) {
           for (const id in timersLast) {
             timersLast[id].pause();
           }
+          playNext(tlRef);
         };
 
-        const playLoop = (tl, tl2) => {
+        const playNext = (tlRef) => {
+          disableScroll();
+          tlRef.current = gsap.timeline();
+          const tl = tlRef.current;
+          const targets =
+            heroRef.current.hero.querySelectorAll(".hero-no-target");
+          tl.to(targets, {
+            opacity: 0,
+            duration: 1,
+            onComplete: function () {
+              enableScroll();
+            },
+          });
+          tl.play();
+        };
+
+        const playLoop = (tl, tlRef) => {
+          pauseNext(tlRef);
           tl.play();
           for (const id in timersFirst) {
             timersFirst[id].play();
@@ -104,14 +116,29 @@ function Page(props) {
           }
         };
 
+        const pauseNext = (tlRef) => {
+          disableScroll();
+          let tl = tlRef.current;
+          tl.call(
+            () => {
+              tl.kill();
+              tl = null;
+              enableScroll();
+            },
+            null,
+            0
+          );
+          tl.reverse(1);
+        };
+
+        // WHEN TRIGGERED REPLAY THE TIMELINE
         ScrollTrigger.create({
           trigger: heroRef.current.hero,
           start: viewport.height * 0.5,
-          onEnter: () => pauseLoop(tlLooping, tlMaster),
-          onLeaveBack: () => playLoop(tlLooping, tlMaster),
+          onEnter: () => pauseLoop(tlLooping, tlMasterRef),
+          onLeaveBack: () => playLoop(tlLooping, tlMasterRef),
         });
 
-        tlMaster.pause();
         tlLooping.play();
       });
     });

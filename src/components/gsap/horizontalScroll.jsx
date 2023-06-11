@@ -28,7 +28,6 @@ function horizontalScroll({
   let starts = [];
   function changeTarget(newTarget, newTarget2) {
     if (target.current.length !== 0) {
-      target.current[0].style.backgroundColor = "transparent";
       target.current[0].classList.remove("hero-target");
       target.current[1].classList.remove("hero-target");
       target.current[0].classList.add("hero-no-target");
@@ -36,7 +35,6 @@ function horizontalScroll({
     }
     target.current[0] = newTarget;
     target.current[1] = newTarget2;
-    target.current[0].style.backgroundColor = "red";
     target.current[0].classList.add("hero-target");
     target.current[1].classList.add("hero-target");
     target.current[0].classList.remove("hero-no-target");
@@ -130,7 +128,6 @@ function horizontalScroll({
           }
         }, changeTargetDuration);
         timerRef[children.length / 2] = timer;
-        console.log(timerRef);
       },
       onRepeat: function () {
         const timer = new Timer(function () {
@@ -143,7 +140,6 @@ function horizontalScroll({
           }
         }, changeTargetDuration);
         timerRef[children.length / 2 - 1] = timer;
-        console.log(timerRef);
       },
     },
     "<" + (repeatWait + (children.length / 2 - 1) * spacingDuration)
@@ -169,7 +165,6 @@ function horizontalScroll({
             }
           }, changeTargetDuration);
           timerRef[j] = timer;
-          console.log(timerRef);
         },
         onRepeat: function () {
           const timer = new Timer(function () {
@@ -179,7 +174,6 @@ function horizontalScroll({
             }
           }, changeTargetDuration);
           timerRef[j] = timer;
-          console.log(timerRef);
         },
       },
       "<" + ((width / distance) * duration + spacingDuration)

@@ -23,6 +23,8 @@ const useNames = (widthRef, addon, content, viewport, spacing) => {
           namesArr[i].className += " h-text-last";
         }
 
+        namesArr[i].className += " hero-no-target";
+
         namesArr[i].className += i % 2 === 0 ? " difference" : " overlay";
         namesArr[i].className += " h-text" + Math.floor(i / 2 + 2);
         namesArr[i].content = content;
