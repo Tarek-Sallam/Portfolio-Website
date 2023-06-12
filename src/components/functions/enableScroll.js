@@ -1,16 +1,9 @@
 function disableScroll() {
-  const scrollTop = window.pageYOffset || document.documentElement.scrollTop;
-
-  window.onscroll = function () {
-    window.scrollTo(
-      window.pageXOffset || document.documentElement.scrollLeft,
-      scrollTop
-    );
-  };
+  document.body.classList.add("no-scroll");
 }
 
 function enableScroll() {
-  window.onscroll = function () {};
+  document.body.classList.remove("no-scroll");
 }
 
 export { disableScroll, enableScroll };

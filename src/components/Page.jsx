@@ -1,6 +1,7 @@
 // APP COMPONENT (includes everything)
 import Header from "./Header.jsx";
 import ThreeMain from "./three/ThreeMain.jsx";
+import "./styles/Page.css";
 import HeroText from "./HeroText.jsx";
 import { useEffect, useRef } from "react";
 import gsap from "gsap";
@@ -48,7 +49,25 @@ function Page(props) {
       gsap.delayedCall(0.05, () => {
         tlLoopingRef.current = gsap.timeline();
         const tlLooping = tlLoopingRef.current;
+        const fadeIn = 2;
 
+        disableScroll();
+        tlLooping.to(heroRef.current.firstN.children, {
+          opacity: 1,
+          duration: fadeIn,
+          onComplete: function () {
+            enableScroll();
+          },
+        });
+
+        tlLooping.to(
+          heroRef.current.lastN.children,
+          {
+            opacity: 1,
+            duration: fadeIn,
+          },
+          "<"
+        );
         // ADD THE ORIGINAL LOOPING TEXT
         tlLooping.add(
           horizontalScroll({
@@ -59,7 +78,8 @@ function Page(props) {
               target: targetFirstRef,
               timerRef: timersFirst,
             },
-          })
+          }),
+          "<"
         );
         // horizontal scroll function for last names
         tlLooping.add(
@@ -76,7 +96,7 @@ function Page(props) {
           "<"
         );
 
-        // PAUSE AND PLAY FUNCTIONS
+        // PAUSE AND PLAY FUNCTIONS FOR STARTING LOOP AND REST OF ANIMATION
 
         const pauseLoop = (tl, tlRef) => {
           tl.pause();
@@ -133,7 +153,6 @@ function Page(props) {
 
         // WHEN TRIGGERED REPLAY THE TIMELINE
         ScrollTrigger.create({
-          trigger: heroRef.current.hero,
           start: viewport.height * 0.5,
           onEnter: () => pauseLoop(tlLooping, tlMasterRef),
           onLeaveBack: () => playLoop(tlLooping, tlMasterRef),

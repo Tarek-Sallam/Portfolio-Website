@@ -10,3 +10,8 @@ body {
 body::-webkit-scrollbar {
     display: none;
 }
+
+.no-scroll {
+    height: 100%;
+    overflow: hidden;
+}

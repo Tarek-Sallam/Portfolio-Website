@@ -1,5 +1,6 @@
 import gsap from "gsap";
 import Timer from "../functions/Timer.js";
+import { disableScroll, enableScroll } from "../functions/enableScroll.js";
 
 function horizontalScroll({
   tlRef,
@@ -44,7 +45,6 @@ function horizontalScroll({
   if (children.length < 4) {
     return;
   }
-  tl.to(children, { opacity: 1, duration: 5 });
   // calculate the starts for all of the elements and set the starts
   for (let i = 0; i < children.length / 2; i++) {
     if (i === 0) {

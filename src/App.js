@@ -1,5 +1,5 @@
 // APP COMPONENT (includes everything)
-import "./App.css";
+
 import Page from "./components/Page.jsx";
 import gsap from "gsap";
 
