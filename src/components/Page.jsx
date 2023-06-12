@@ -52,6 +52,7 @@ function Page(props) {
         const fadeIn = 2;
 
         disableScroll();
+
         tlLooping.to(heroRef.current.firstN.children, {
           opacity: 1,
           duration: fadeIn,
