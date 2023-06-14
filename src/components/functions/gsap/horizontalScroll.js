@@ -2,19 +2,17 @@
 import gsap from "gsap";
 
 // custom pausable timer
-import Timer from "../functions/Timer.js";
+import Timer from "../Timer.js";
 
 // FUNCTION FOR THE HORIZONTALLY SCROLLING TEXT
 function horizontalScroll({
   // PROPS
-  tlRef,
   viewport,
   container,
   duration,
   direction,
   spacing,
   classN,
-  target,
   timerRef,
 }) {
   const children = container.children; // children of the passed container
@@ -25,8 +23,8 @@ function horizontalScroll({
   const repeatWait = (overflow / distance) * duration; // the delay time between repeating
   const start = direction === 1 ? viewport : -width; // the start depending on direction
   const spacingDuration = (spacing / distance) * duration; // duration that takes into account spacing
-  tlRef.current = gsap.timeline(); // create timeline
-  const tl = tlRef.current; // reference to timeline
+  const tl = gsap.timeline(); // reference to timeline
+  const target = [];
 
   // delay to change targets
   const changeTargetDuration =
@@ -37,18 +35,18 @@ function horizontalScroll({
 
   // change target function
   function changeTarget(newTarget, newTarget2) {
-    if (target.current.length !== 0) {
-      target.current[0].classList.remove("hero-target");
-      target.current[1].classList.remove("hero-target");
-      target.current[0].classList.add("hero-no-target");
-      target.current[1].classList.add("hero-no-target");
+    if (target.length > 1) {
+      target[0].classList.remove("hero-target");
+      target[1].classList.remove("hero-target");
+      target[0].classList.add("hero-no-target");
+      target[1].classList.add("hero-no-target");
     }
-    target.current[0] = newTarget;
-    target.current[1] = newTarget2;
-    target.current[0].classList.add("hero-target");
-    target.current[1].classList.add("hero-target");
-    target.current[0].classList.remove("hero-no-target");
-    target.current[1].classList.remove("hero-no-target");
+    target[0] = newTarget;
+    target[1] = newTarget2;
+    target[0].classList.add("hero-target");
+    target[1].classList.add("hero-target");
+    target[0].classList.remove("hero-no-target");
+    target[1].classList.remove("hero-no-target");
   }
 
   // if there isn't more than 1 child
@@ -79,11 +77,11 @@ function horizontalScroll({
     gsap.set(children[i * 2 + 1], { x: starts[i] });
 
     // set the first target
-    if (target.current.length === 0) {
+    if (target.length === 0) {
       changeTarget(children[i * 2], children[i * 2 + 1]);
     } else if (
       Math.abs(
-        viewport / 2 - (target.current[0].getBoundingClientRect().x + width / 2)
+        viewport / 2 - (target[0].getBoundingClientRect().x + width / 2)
       ) > Math.abs(viewport / 2 - (starts[i] + width / 2))
     ) {
       changeTarget(children[i * 2], children[i * 2 + 1]);

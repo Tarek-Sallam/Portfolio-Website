@@ -3,179 +3,40 @@ import Header from "./Header.jsx";
 import ThreeMain from "./three/ThreeMain.jsx";
 import "./styles/Page.css";
 import HeroText from "./HeroText.jsx";
-import { useEffect, useRef } from "react";
+import { useLayoutEffect, useRef } from "react";
 import gsap from "gsap";
-import horizontalScroll from "./gsap/horizontalScroll.jsx";
-import useNames from "./hooks/useNames.jsx";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
-import { disableScroll, enableScroll } from "./functions/enableScroll.js";
+
 gsap.registerPlugin(ScrollTrigger);
 
 function Page(props) {
   const tlMasterRef = useRef();
   const tlLoopingRef = useRef();
-  const heroRef = useRef();
-  const tlRef1 = useRef();
-  const tlRef2 = useRef();
   const viewport = props.viewport;
   const spacing = 0.15 * viewport.width;
-  const targetFirstRef = useRef([]);
-  const targetLastRef = useRef([]);
-
-  // set amount of names with useNames hook
-  const firstNames = useNames(heroRef, "firstN", "TAREK", viewport, spacing);
-  const lastNames = useNames(heroRef, "lastN", "SALLAM", viewport, spacing);
 
   // useEffect for animation timeline
-  useEffect(() => {
-    // name containers
-    const firstNContainer = heroRef.current.firstN;
-    const lastNContainer = heroRef.current.lastN;
-
+  useLayoutEffect(() => {
     // context for GSAP
     const ctx = gsap.context(() => {
-      // paramaters for scrollHorizontal function
-      const scrollParams = {
-        tlRef: tlRef1,
-        viewport: viewport.width,
-        duration: 20,
-        classN: "h-text",
-        spacing: spacing,
-      };
-
-      const timersFirst = {};
-      const timersLast = {};
-      // delay the call slightly
-      gsap.delayedCall(0.05, () => {
-        tlLoopingRef.current = gsap.timeline();
-        const tlLooping = tlLoopingRef.current;
-        const fadeIn = 2;
-
-        disableScroll();
-
-        tlLooping.to(heroRef.current.firstN.children, {
-          opacity: 1,
-          duration: fadeIn,
-          onComplete: function () {
-            enableScroll();
-          },
-        });
-
-        tlLooping.to(
-          heroRef.current.lastN.children,
-          {
-            opacity: 1,
-            duration: fadeIn,
-          },
-          "<"
-        );
-        // ADD THE ORIGINAL LOOPING TEXT
-        tlLooping.add(
-          horizontalScroll({
-            ...scrollParams,
-            ...{
-              container: firstNContainer,
-              direction: 1,
-              target: targetFirstRef,
-              timerRef: timersFirst,
-            },
-          }),
-          "<"
-        );
-        // horizontal scroll function for last names
-        tlLooping.add(
-          horizontalScroll({
-            ...scrollParams,
-            ...{
-              tlRef: tlRef2,
-              container: lastNContainer,
-              direction: -1,
-              target: targetLastRef,
-              timerRef: timersLast,
-            },
-          }),
-          "<"
-        );
-
-        // PAUSE AND PLAY FUNCTIONS FOR STARTING LOOP AND REST OF ANIMATION
-
-        const pauseLoop = (tl, tlRef) => {
-          tl.pause();
-          for (const id in timersFirst) {
-            timersFirst[id].pause();
-          }
-          for (const id in timersLast) {
-            timersLast[id].pause();
-          }
-          playNext(tlRef);
-        };
-
-        const playNext = (tlRef) => {
-          disableScroll();
-          tlRef.current = gsap.timeline();
-          const tl = tlRef.current;
-          const targets =
-            heroRef.current.hero.querySelectorAll(".hero-no-target");
-          tl.to(targets, {
-            opacity: 0,
-            duration: 1,
-            onComplete: function () {
-              enableScroll();
-            },
-          });
-          tl.play();
-        };
-
-        const playLoop = (tl, tlRef) => {
-          pauseNext(tlRef);
-          tl.play();
-          for (const id in timersFirst) {
-            timersFirst[id].play();
-          }
-          for (const id in timersLast) {
-            timersLast[id].play();
-          }
-        };
-
-        const pauseNext = (tlRef) => {
-          disableScroll();
-          let tl = tlRef.current;
-          tl.call(
-            () => {
-              tl.kill();
-              tl = null;
-              enableScroll();
-            },
-            null,
-            0
-          );
-          tl.reverse(1);
-        };
-
-        // WHEN TRIGGERED REPLAY THE TIMELINE
-        ScrollTrigger.create({
-          start: viewport.height * 0.5,
-          onEnter: () => pauseLoop(tlLooping, tlMasterRef),
-          onLeaveBack: () => playLoop(tlLooping, tlMasterRef),
-        });
-
-        tlLooping.play();
-      });
+      tlLoopingRef.current = gsap.timeline();
+      tlMasterRef.current = gsap.timeline({ paused: true });
     });
 
     return () => ctx.revert();
-  }, [heroRef, tlRef1, tlRef2, viewport, spacing, firstNames, lastNames]);
+  }, []);
+
+  const heroTextProps = {
+    tlMasterRef: tlMasterRef,
+    tlLoopingRef: tlLoopingRef,
+    spacing: spacing,
+  };
 
   return (
     <>
       <ThreeMain {...props} />
       <Header {...props} />
-      <HeroText
-        {...props}
-        ref={heroRef}
-        firstNames={firstNames}
-        lastNames={lastNames}
-      />
+      <HeroText {...{ ...props, ...heroTextProps }} />
       <section>
         <div>
           <p>

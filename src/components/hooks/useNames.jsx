@@ -1,10 +1,10 @@
 import { useState, useEffect } from "react";
 // useNames hook
-const useNames = (widthRef, addon, content, viewport, spacing) => {
+const useNames = (widthRef, content, viewport, spacing) => {
   const [names, setNames] = useState([]);
   useEffect(() => {
     setTimeout(() => {
-      let widthEl = widthRef.current[addon];
+      let widthEl = widthRef.current;
 
       const namesArr = [];
       if (!widthEl) {
@@ -13,7 +13,7 @@ const useNames = (widthRef, addon, content, viewport, spacing) => {
       }
       const width = widthEl.clientWidth + spacing;
       const amount = Math.ceil(viewport.width / width);
-      for (let i = 0; i < amount * 2; ++i) {
+      for (let i = 0; i < amount * 2; i++) {
         namesArr[i] = {};
         namesArr[i].className = "hero-text";
 
@@ -30,10 +30,9 @@ const useNames = (widthRef, addon, content, viewport, spacing) => {
         namesArr[i].content = content;
         namesArr[i].id = content + i;
       }
-
       setNames(namesArr);
-    }, 100);
-  }, [content, widthRef, addon, viewport.width, spacing]);
+    }, 50);
+  }, [content, widthRef, viewport.width, spacing]);
   return names;
 };
 
