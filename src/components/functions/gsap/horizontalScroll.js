@@ -14,14 +14,15 @@ function horizontalScroll({
   spacing,
   classN,
   timerRef,
+  starts,
 }) {
   const children = container.children; // children of the passed container
   const width = children[0].offsetWidth; // width of text
-  const remaining = width - viewport; // text minus width of viewport
+  const start = direction === 1 ? viewport : -width;
   const distance = width + viewport; // distance needed to travel
   const overflow = width * (children.length / 2 - 1) - viewport; // overflow distance of children and viewport
   const repeatWait = (overflow / distance) * duration; // the delay time between repeating
-  const start = direction === 1 ? viewport : -width; // the start depending on direction
+
   const spacingDuration = (spacing / distance) * duration; // duration that takes into account spacing
   const tl = gsap.timeline(); // reference to timeline
   const target = [];
@@ -29,9 +30,6 @@ function horizontalScroll({
   // delay to change targets
   const changeTargetDuration =
     (viewport / 2 / distance + spacing * 1.25) * duration + spacingDuration;
-
-  // array for the starting positions
-  let starts = [];
 
   // change target function
   function changeTarget(newTarget, newTarget2) {
@@ -56,26 +54,6 @@ function horizontalScroll({
 
   // calculate the starts for all of the elements and set the starts
   for (let i = 0; i < children.length / 2; i++) {
-    if (i === 0) {
-      starts[i] = direction === 1 ? 0 : -remaining;
-    } else if (direction === 1) {
-      if (starts[i - 1] + width + spacing < viewport) {
-        starts[i] = starts[i - 1] + width + spacing;
-      } else {
-        starts[i] = start;
-      }
-    } else if (direction === -1) {
-      if (starts[i - 1] - spacing > 0) {
-        starts[i] = starts[i - 1] - width - spacing;
-      } else {
-        starts[i] = start;
-      }
-    }
-
-    // set position to the current starting position
-    gsap.set(children[i * 2], { x: starts[i] });
-    gsap.set(children[i * 2 + 1], { x: starts[i] });
-
     // set the first target
     if (target.length === 0) {
       changeTarget(children[i * 2], children[i * 2 + 1]);

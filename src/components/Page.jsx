@@ -11,7 +11,6 @@ gsap.registerPlugin(ScrollTrigger);
 
 function Page(props) {
   const tlMasterRef = useRef();
-  const tlLoopingRef = useRef();
   const viewport = props.viewport;
   const spacing = 0.15 * viewport.width;
 
@@ -19,7 +18,6 @@ function Page(props) {
   useLayoutEffect(() => {
     // context for GSAP
     const ctx = gsap.context(() => {
-      tlLoopingRef.current = gsap.timeline();
       tlMasterRef.current = gsap.timeline({ paused: true });
     });
 
@@ -28,7 +26,6 @@ function Page(props) {
 
   const heroTextProps = {
     tlMasterRef: tlMasterRef,
-    tlLoopingRef: tlLoopingRef,
     spacing: spacing,
   };
 
