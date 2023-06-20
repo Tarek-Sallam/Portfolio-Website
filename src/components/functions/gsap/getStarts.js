@@ -1,5 +1,5 @@
 import gsap from "gsap";
-function getStarts(children, direction, viewport, spacing) {
+function getStarts({ children, direction, viewport, spacing }) {
   const width = children[0].offsetWidth; // width of text
   const remaining = width - viewport; // text minus width of viewport
   const start = direction === 1 ? viewport : -width; // the start depending on direction
