@@ -4,10 +4,9 @@ import "./styles/HeroText.css";
 import ListItems from "./ListItems";
 import useNames from "./hooks/useNames.jsx";
 import getStarts from "./functions/gsap/getStarts.js";
+import horizontalScroll from "./functions/gsap/horizontalScroll.js";
 import gsap from "gsap";
 import { enableScroll, disableScroll } from "./functions/enableScroll.js";
-import loopingAnimation from "./functions/gsap/looping.js";
-import loopingTransfer from "./functions/gsap/loopingTransfer.js";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 
 gsap.registerPlugin(ScrollTrigger);
@@ -24,105 +23,155 @@ const HeroText = (props) => {
   const firstNames = useNames(firstNRef, "TAREK", viewport, spacing);
   const lastNames = useNames(lastNRef, "SALLAM", viewport, spacing);
 
+  // LOOPING ANIMATION EFFECT
   useEffect(() => {
-    const timersFirst = {};
-    const timersLast = {};
-    tlLoopingRef.current = gsap.timeline();
-    const tlLooping = tlLoopingRef.current;
-    const tlMaster = tlMasterRef.current;
-
-    window.scrollTo({ top: 0, behavior: "instant" });
-
     const firstChildren = firstNRef.current.children;
     const lastChildren = lastNRef.current.children;
 
     const ctx = gsap.context(() => {
-      function pauseLooping(tl1, tl2) {
-        disableScroll();
-        tl1.pause();
-        for (const timer in timersFirst) {
-          timersFirst[timer].pause();
-        }
-        for (const timer in timersLast) {
-          timersLast[timer].pause();
-        }
-        loopingTransfer(tl2, heroRef);
-        tl2.play();
-      }
+      tlLoopingRef.current = gsap.timeline();
+      const tlLooping = tlLoopingRef.current;
 
-      function playLooping(tl1, tl2) {
-        disableScroll();
-        tl2.call(
-          function () {
-            tl2.clear();
-            tl2.pause();
-            tl1.play();
-            for (const timer in timersFirst) {
-              timersFirst[timer].play();
-            }
-            for (const timer in timersLast) {
-              timersLast[timer].play();
-            }
+      const firstStarts = getStarts({
+        children: firstChildren,
+        direction: 1,
+        viewport: viewport.width,
+        spacing: spacing,
+      });
+
+      const lastStarts = getStarts({
+        children: lastChildren,
+        direction: -1,
+        viewport: viewport.width,
+        spacing: spacing,
+      });
+
+      const scrollParams = {
+        viewport: viewport.width,
+        duration: 20,
+        spacing: spacing,
+        classN: "h-text",
+      };
+      console.log(lastStarts);
+
+      tlLooping.to(
+        firstChildren,
+        {
+          autoAlpha: 1,
+          duration: 2,
+          ease: "none",
+          onStart: function () {
+            disableScroll();
+          },
+          onComplete: function () {
             enableScroll();
           },
-          null,
-          0
-        );
-        tl2.reverse();
-      }
-
-      function createDefaultTrigger() {
-        ScrollTrigger.create({
-          start: viewport.height * 0.5,
-          onEnter: function () {
-            disableScroll();
-            pauseLooping(tlLooping, tlMaster);
-            window.scrollTo({
-              top: viewport.height * 0.6,
-              behavior: "instant",
-            });
+        },
+        "<"
+      );
+      tlLooping.to(
+        lastChildren,
+        { autoAlpha: 1, duration: 2, ease: "none" },
+        "<"
+      );
+      tlLooping.add(
+        horizontalScroll({
+          ...scrollParams,
+          ...{
+            container: firstNRef.current,
+            direction: 1,
+            starts: firstStarts,
           },
-          onLeaveBack: function () {
-            disableScroll();
-            playLooping(tlLooping, tlMaster);
-            window.scrollTo({
-              top: viewport.height * 0.4,
-              behavior: "instant",
-            });
+        }),
+        "<"
+      );
+
+      tlLooping.add(
+        horizontalScroll({
+          ...scrollParams,
+          ...{
+            container: lastNRef.current,
+            direction: -1,
+            starts: lastStarts,
           },
-        });
-      }
-
-      function start() {
-        const firstStarts = getStarts(
-          firstChildren,
-          1,
-          viewport.width,
-          spacing
-        );
-        const lastStarts = getStarts(lastChildren, -1, viewport.width, spacing);
-
-        loopingAnimation({
-          tl: tlLooping,
-          firstStarts: firstStarts,
-          lastStarts: lastStarts,
-          firstNRef: firstNRef,
-          lastNRef: lastNRef,
-          timersFirst: timersFirst,
-          timersLast: timersLast,
-          viewport: viewport,
-          spacing: spacing,
-        });
-        createDefaultTrigger();
-      }
-      disableScroll();
-      start();
+        }),
+        "<"
+      );
     });
 
     return () => {
       ctx.revert();
     };
-  }, [firstNames, lastNames, viewport, spacing, tlLoopingRef, tlMasterRef]);
+  }, [tlMasterRef, viewport, firstNames, lastNames, spacing]);
+
+  // MASTER TIMELINE EFFECT
+  useEffect(() => {
+    const firstChildren = firstNRef.current.children;
+    const lastChildren = lastNRef.current.children;
+    const tlMaster = tlMasterRef.current;
+
+    const ctx = gsap.context(() => {
+      tlMaster.to(
+        firstChildren,
+        {
+          autoAlpha: 0,
+          duration: 1,
+          ease: "none",
+        },
+        "0"
+      );
+      tlMaster.to(
+        lastChildren,
+        { autoAlpha: 0, duration: 1, ease: "none" },
+        "0"
+      );
+    });
+
+    return () => {
+      ctx.revert();
+    };
+  }, [tlMasterRef, lastNames, firstNames]);
+
+  // SCROLL TRIGGER TO KILL LOOPING ANIMATION
+  useEffect(() => {
+    const tlMaster = tlMasterRef.current;
+    const tlLooping = tlLoopingRef.current;
+    function handleEnter() {
+      disableScroll();
+      tlLooping.pause();
+      tlMaster.play();
+      tlMaster.call(
+        () => {
+          enableScroll();
+        },
+        null,
+        1
+      );
+    }
+
+    function handleLeaveBack() {
+      disableScroll();
+      tlLooping.play();
+      tlMaster.reverse(1);
+      gsap.delayedCall(1, () => {
+        enableScroll();
+      });
+    }
+
+    const ctx = gsap.context(() => {
+      ScrollTrigger.create({
+        start: 0.5 * viewport.height,
+        onEnter: function () {
+          handleEnter();
+        },
+        onLeaveBack: function () {
+          handleLeaveBack();
+        },
+      });
+    });
+
+    return () => ctx.revert();
+  }, [tlMasterRef, viewport.height]);
 
   return (
     <div className="hero-text-wrapper" ref={heroRef}>

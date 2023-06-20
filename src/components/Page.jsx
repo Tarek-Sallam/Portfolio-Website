@@ -3,7 +3,7 @@ import Header from "./Header.jsx";
 import ThreeMain from "./three/ThreeMain.jsx";
 import "./styles/Page.css";
 import HeroText from "./HeroText.jsx";
-import { useLayoutEffect, useRef } from "react";
+import { useLayoutEffect, useRef, useEffect } from "react";
 import gsap from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 
