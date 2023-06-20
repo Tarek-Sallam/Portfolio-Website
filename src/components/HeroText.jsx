@@ -14,6 +14,7 @@ gsap.registerPlugin(ScrollTrigger);
 const HeroText = (props) => {
   const firstNRef = useRef();
   const lastNRef = useRef();
+  const underTextRef = useRef();
   const heroRef = useRef();
   const viewport = props.viewport;
   const spacing = props.spacing;
@@ -108,6 +109,7 @@ const HeroText = (props) => {
   useEffect(() => {
     const firstChildren = firstNRef.current.children;
     const lastChildren = lastNRef.current.children;
+    const underChildren = underTextRef.current.children;
     const tlMaster = tlMasterRef.current;
 
     const ctx = gsap.context(() => {
@@ -124,6 +126,15 @@ const HeroText = (props) => {
         lastChildren,
         { autoAlpha: 0, duration: 1, ease: "none" },
         "0"
+      );
+      tlMaster.to(
+        underChildren,
+        {
+          autoAlpha: 1,
+          duration: 2,
+          ease: "none",
+        },
+        0.5
       );
     });
 
@@ -145,15 +156,15 @@ const HeroText = (props) => {
           enableScroll();
         },
         null,
-        1
+        2.5
       );
     }
 
     function handleLeaveBack() {
       disableScroll();
       tlLooping.play();
-      tlMaster.reverse(1);
-      gsap.delayedCall(1, () => {
+      tlMaster.reverse(2.5);
+      gsap.delayedCall(2.5, () => {
         enableScroll();
       });
     }
@@ -184,6 +195,12 @@ const HeroText = (props) => {
         <p className="hero-text h-text-last difference h-text1">SALLAM</p>
         <p className="hero-text h-text-last overlay h-text1">SALLAM</p>
         <ListItems items={lastNames} />
+      </span>
+      <span className="hero-text-under" ref={underTextRef}>
+        <p className="hero-text h-text-first difference">TAREK</p>
+        <p className="hero-text h-text-first overlay">TAREK</p>
+        <p className="hero-text h-text-last difference">SALLAM</p>
+        <p className="hero-text h-text-last overlay">SALLAM</p>
       </span>
     </div>
   );
