@@ -11,6 +11,9 @@ body::-webkit-scrollbar {
     display: none;
 }
 
+.invisble {
+    opacity: 0;
+}
 .no-scroll {
     height: 100%;
     overflow: hidden;

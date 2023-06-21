@@ -36,7 +36,7 @@ function Page(props) {
       <HeroText {...{ ...props, ...heroTextProps }} />
       <section>
         <div>
-          <p>
+          <p className="invisble">
             Lorem ipsum dolor sit amet, consectetur adipiscing elit. Vestibulum
             maximus dictum mauris vel ornare. Mauris sollicitudin dolor erat,
             vel finibus sem malesuada sit amet. Phasellus maximus vel enim vitae

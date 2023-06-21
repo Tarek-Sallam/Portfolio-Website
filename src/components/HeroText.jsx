@@ -16,6 +16,7 @@ const HeroText = (props) => {
   const lastNRef = useRef();
   const underTextRef = useRef();
   const heroRef = useRef();
+  const descriptionRef = useRef();
   const viewport = props.viewport;
   const spacing = props.spacing;
   const tlLoopingRef = useRef();
@@ -53,7 +54,6 @@ const HeroText = (props) => {
         spacing: spacing,
         classN: "h-text",
       };
-      console.log(lastStarts);
 
       tlLooping.to(
         firstChildren,
@@ -110,6 +110,7 @@ const HeroText = (props) => {
     const firstChildren = firstNRef.current.children;
     const lastChildren = lastNRef.current.children;
     const underChildren = underTextRef.current.children;
+    const description = descriptionRef.current;
     const tlMaster = tlMasterRef.current;
 
     const ctx = gsap.context(() => {
@@ -129,6 +130,15 @@ const HeroText = (props) => {
       );
       tlMaster.to(
         underChildren,
+        {
+          autoAlpha: 1,
+          duration: 2,
+          ease: "none",
+        },
+        0.5
+      );
+      tlMaster.to(
+        description,
         {
           autoAlpha: 1,
           duration: 2,
@@ -203,6 +213,14 @@ const HeroText = (props) => {
         <p className="hero-text h-text-first overlay">TAREK</p>
         <p className="hero-text h-text-last difference">SALLAM</p>
         <p className="hero-text h-text-last overlay">SALLAM</p>
+      </span>
+      <span className="hero-description-container" ref={descriptionRef}>
+        <p>Front End Web Developer and Designer | VFX Artist </p>
+        <p>
+          Hello! I'm Tarek! I am a passionate web developer who loves to build
+          awesome projects! I also enjoy applying technical skills for visual
+          effects in Houdini.
+        </p>
       </span>
     </div>
   );

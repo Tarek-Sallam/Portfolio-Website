@@ -110,6 +110,12 @@
     align-items: left;
 }
 
+.hero-description-container {
+    visibility: hidden;
+    position: fixed;
+    opacity: 0;
+}
+
 .h-text-first {
     transform: translate(0%, -100%);
 }
