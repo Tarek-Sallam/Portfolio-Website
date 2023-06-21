@@ -148,6 +148,7 @@ const HeroText = (props) => {
     const tlMaster = tlMasterRef.current;
     const tlLooping = tlLoopingRef.current;
     function handleEnter() {
+      window.scrollTo({ top: 0.6 * viewport.height });
       disableScroll();
       tlLooping.pause();
       tlMaster.play();
@@ -161,6 +162,7 @@ const HeroText = (props) => {
     }
 
     function handleLeaveBack() {
+      window.scrollTo({ top: 0.4 * viewport.height });
       disableScroll();
       tlLooping.play();
       tlMaster.reverse(2.5);
